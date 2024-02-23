@@ -1,6 +1,7 @@
 import asyncio
 import os
 import random
+import copy
 from asyncio import Task
 from typing import Dict, List, Optional, Tuple
 
@@ -93,6 +94,8 @@ class XiaoHongShuCrawler(AbstractCrawler):
         """Search for notes and retrieve their comment information."""
         utils.logger.info("[XiaoHongShuCrawler.search] Begin search xiaohongshu keywords")
         xhs_limit_count = 20  # xhs limit page fixed value
+        keywords = config.KEYWORDS.split(",")
+        
         for keyword in config.KEYWORDS.split(","):
             utils.logger.info(f"[XiaoHongShuCrawler.search] Current search keyword: {keyword}")
             page = 1
@@ -102,7 +105,7 @@ class XiaoHongShuCrawler(AbstractCrawler):
                     keyword=keyword,
                     page=page,
                 )
-                utils.logger.info(f"[XiaoHongShuCrawler.search] Search notes res:{notes_res}")
+                utils.logger.info(f"[XiaoHongShuCrawler.search] Search notes res:\n{notes_res}")
                 semaphore = asyncio.Semaphore(config.MAX_CONCURRENCY_NUM)
                 task_list = [
                     self.get_note_detail(post_item.get("id"), semaphore)
@@ -117,7 +120,21 @@ class XiaoHongShuCrawler(AbstractCrawler):
                 page += 1
                 utils.logger.info(f"[XiaoHongShuCrawler.search] Note details: {note_details}")
                 await self.batch_get_note_comments(note_id_list)
-
+    
+    # def process_res_dict(self, res) -> list:
+    #     items = res['items']
+    #     res = []
+    #     for item in items:
+    #         try:
+    #             dict = {
+    #                 "title": item['note_card']['display_title'],
+    #                 "user": item['note_card']['user']['nickname']
+    #             }
+    #             res.append(copy.deepcopy(dict))
+    #         except:
+    #             pass
+    #     return res
+    
     async def get_specified_notes(self):
         """Get the information and comments of the specified post"""
         semaphore = asyncio.Semaphore(config.MAX_CONCURRENCY_NUM)

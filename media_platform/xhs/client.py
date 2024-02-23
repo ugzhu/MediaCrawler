@@ -171,7 +171,7 @@ class XHSClient:
             "root_comment_id": root_comment_id,
             "num": num,
             "cursor": cursor,
-        }
+        } 
         return await self.get(uri, params)
 
     async def get_note_all_comments(self, note_id: str, crawl_interval: float = 1.0, is_fetch_sub_comments=False):

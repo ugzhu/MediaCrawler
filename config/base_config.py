@@ -1,6 +1,6 @@
 # 基础配置
 PLATFORM = "xhs"
-KEYWORDS = "python,golang"
+KEYWORDS = ""
 LOGIN_TYPE = "qrcode"  # qrcode or phone or cookie
 COOKIES = ""
 CRAWLER_TYPE = "search"
@@ -24,13 +24,13 @@ SAVE_LOGIN_STATE = True
 USER_DATA_DIR = "%s_user_data_dir"  # %s will be replaced by platform name
 
 # 爬取视频/帖子的数量控制
-CRAWLER_MAX_NOTES_COUNT = 20
+CRAWLER_MAX_NOTES_COUNT = 2
 
 # 并发爬虫数量控制
 MAX_CONCURRENCY_NUM = 4
 
 # 每个视频/帖子抓取评论最大条数 (为0则不限制)
-MAX_COMMENTS_PER_POST = 0
+MAX_COMMENTS_PER_POST = 10
 
 # 评论关键词筛选(只会留下包含关键词的评论,为空不限制)
 COMMENT_KEYWORDS = [

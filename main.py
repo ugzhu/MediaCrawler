@@ -4,6 +4,7 @@ import sys
 
 import config
 import db
+import stopword.stopword as stopword
 from base.base_crawler import AbstractCrawler
 from media_platform.bilibili import BilibiliCrawler
 from media_platform.douyin import DouYinCrawler
@@ -38,6 +39,9 @@ async def main():
                         choices=["qrcode", "phone", "cookie"], default=config.LOGIN_TYPE)
     parser.add_argument('--type', type=str, help='crawler type (search | detail)',
                         choices=["search", "detail"], default=config.CRAWLER_TYPE)
+    
+    # init keywords
+    config.KEYWORDS += stopword.init()
 
     # init db
     if config.IS_SAVED_DATABASED:
