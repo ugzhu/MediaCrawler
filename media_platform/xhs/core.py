@@ -95,11 +95,12 @@ class XiaoHongShuCrawler(AbstractCrawler):
         utils.logger.info("[XiaoHongShuCrawler.search] Begin search xiaohongshu keywords")
         xhs_limit_count = 20  # xhs limit page fixed value
         keywords = config.KEYWORDS.split(",")
+
         
-        for keyword in config.KEYWORDS.split(","):
-            utils.logger.info(f"[XiaoHongShuCrawler.search] Current search keyword: {keyword}")
-            page = 1
-            while page * xhs_limit_count <= config.CRAWLER_MAX_NOTES_COUNT:
+        page = 1
+        while page * xhs_limit_count <= config.CRAWLER_MAX_NOTES_COUNT:
+            for keyword in keywords:
+                utils.logger.info(f"[XiaoHongShuCrawler.search] Current search keyword: {keyword}")
                 note_id_list: List[str] = []
                 notes_res = await self.xhs_client.get_note_by_keyword(
                     keyword=keyword,
@@ -117,9 +118,9 @@ class XiaoHongShuCrawler(AbstractCrawler):
                     if note_detail is not None:
                         await xhs_model.update_xhs_note(note_detail)
                         note_id_list.append(note_detail.get("note_id"))
-                page += 1
                 utils.logger.info(f"[XiaoHongShuCrawler.search] Note details: {note_details}")
                 await self.batch_get_note_comments(note_id_list)
+            page += 1
     
     # def process_res_dict(self, res) -> list:
     #     items = res['items']
