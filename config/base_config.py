@@ -15,7 +15,7 @@ IP_PROXY_POOL_COUNT = 2
 RETRY_INTERVAL = 60 * 30  # 30 minutes
 
 # 无头浏览器的标识，True:开启 False 关闭（会打开一个浏览器）
-HEADLESS = False
+HEADLESS = True
 
 # 是否保存登录状态
 SAVE_LOGIN_STATE = True
@@ -27,10 +27,10 @@ USER_DATA_DIR = "%s_user_data_dir"  # %s will be replaced by platform name
 CRAWLER_MAX_NOTES_COUNT = 20
 
 # 并发爬虫数量控制
-MAX_CONCURRENCY_NUM = 4
+MAX_CONCURRENCY_NUM = 50
 
 # 每个视频/帖子抓取评论最大条数 (为0则不限制)
-MAX_COMMENTS_PER_POST = 10
+MAX_COMMENTS_PER_POST = 1
 
 # 评论关键词筛选(只会留下包含关键词的评论,为空不限制)
 COMMENT_KEYWORDS = [
